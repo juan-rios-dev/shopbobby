@@ -1,0 +1,24 @@
+{
+  "name": "shopbobby",
+  "version": "1.0.0",
+  "description": "Tienda de bobby",
+  "type": "commonjs",
+  "scripts": {
+    "dev:web": "webpack serve --config-name web",
+    "dev:console": "tsx ./src/cli.ts",
+    "build": "webpack",
+    "start:console": "node dist/cli.bundle.js"
+  },
+  "author": "Juan Rios",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^26.0.1",
+    "html-webpack-plugin": "^5.6.7",
+    "ts-loader": "^9.6.2",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "webpack": "^5.107.2",
+    "webpack-cli": "^7.0.3",
+    "webpack-dev-server": "^5.2.5"
+  }
+}
