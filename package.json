@@ -4,7 +4,7 @@
   "description": "Tienda de bobby",
   "type": "commonjs",
   "scripts": {
-    "dev:web": "webpack serve --config-name web",
+    "dev": "webpack serve --config-name web",
     "dev:console": "tsx ./src/cli.ts",
     "build": "webpack",
     "start:console": "node dist/cli.bundle.js"

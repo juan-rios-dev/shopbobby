@@ -9,7 +9,7 @@ Tienda de Bobby, una sola logica de negocio, multiples I/O
 ## Instalación
 
 ```bash
-git clone 
+git clone https://github.com/juan-rios-dev/shopbobby.git
 
 cd shop_bobby
 
@@ -21,7 +21,7 @@ npm install
 | Script | Descripción |
 |---------|-------------|
 | `npm run dev` | Inicia la aplicación web en modo desarrollo. |
-| `npm run dev:console` | Ejecuta la aplicación de consola con tsx. |
+| `npm run dev:console` | Ejecuta la aplicación de consola en modo desarrollo. |
 | `npm run build` | Compila la aplicación web y la CLI. |
 | `npm run start:console` | Ejecuta la CLI compilada. |
 
