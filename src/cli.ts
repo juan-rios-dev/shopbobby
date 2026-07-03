@@ -71,6 +71,8 @@ function crearCliente() {
     };
 
     clientUse.createClient(client);
+    console.log("Cliente creado con éxito")
+    console.table(clientUse.readClient());
 }
 
 function crearProducto() {
@@ -94,6 +96,8 @@ function crearProducto() {
     };
 
     productUse.createProduct(product);
+    console.log("Producto creado con éxito")
+    console.table(productUse.readProduct());
 }
 
 function crearVenta() {
@@ -128,4 +132,5 @@ function crearVenta() {
     } else {
         console.log(response.message);
     }
+    console.table(saleUse.readSale());
 }
