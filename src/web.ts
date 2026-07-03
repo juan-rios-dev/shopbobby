@@ -1,7 +1,4 @@
-const app = document.getElementById("app");
+import 'bootstrap/dist/css/bootstrap.min.css';
+const root = document.getElementById("root");
 
-if (app) {
-    app.innerHTML = "<h1>¡Hola Mundo desde la Web! 🌐</h1>";
-}
-
-console.log("Hola Mundo desde el navegador");
+root!.innerHTML = `<h1 class="bg-primary text-center p-2">Hola Mundo</h1>`;
