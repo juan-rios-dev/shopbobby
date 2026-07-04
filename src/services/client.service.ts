@@ -13,7 +13,6 @@ export class clientService {
 
     readClient(): Array<Client> {
         const clients = this.clientStore.read();
-        console.log(clients)
         return clients;
     }
 

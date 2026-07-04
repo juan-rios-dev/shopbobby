@@ -31,7 +31,6 @@ module.exports = [
         output: {
             filename: 'web.bundle.js',
             path: path.resolve(__dirname, 'dist'),
-            clean: true
         },
         plugins: [new HtmlWebpackPlugin({
             template: './index.html'
@@ -57,6 +56,7 @@ module.exports = [
         output: {
             filename: 'cli.bundle.js',
             path: path.resolve(__dirname, 'dist'),
+            clean: true
         },
         mode: 'development'
     },
