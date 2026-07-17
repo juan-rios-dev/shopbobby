@@ -1,22 +1,25 @@
 import { Client } from "../models/client.model";
 import { QUERY } from "../interfaces/query.interface";
+import { ServicePort } from "../interfaces/service.interface";
+import { Validator } from "../interfaces/validator.interface";
 
-export class clientService {
+export class ClientService implements ServicePort<Client> {
     constructor(
         private clientStore: QUERY<Client>,
+        private validator: Validator<Client>
     ) { }
 
-    createClient(payload: Client): void {
-        const client: Client = payload;
-        this.clientStore.create(client);
+    create(payload: Client): boolean {
+        this.validator.validate(payload);
+        return this.clientStore.create(payload);
     }
 
-    readClient(): Array<Client> {
+    read(): Array<Client> {
         const clients = this.clientStore.read();
         return clients;
     }
 
-    deleteClient(id: number): void {
-        this.clientStore.delete(id);
+    delete(id: number): boolean {
+        return this.clientStore.delete(id);
     }
 }

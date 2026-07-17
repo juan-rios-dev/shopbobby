@@ -1,36 +1,31 @@
 import { CRUD } from "../interfaces/crud.interface";
-import { QUERY } from "../interfaces/query.interface";
+import { ServicePort } from "../interfaces/service.interface";
 import { Client } from "../models/client.model";
 import { Product } from "../models/product.model";
 import { Sale, SaleItem } from "../models/sale.model";
 
-type Response = {
-    status: boolean;
-    message: string;
-}
-
-export class SaleService {
+export class SaleService implements ServicePort<Sale> {
     constructor(
-        private clientStore: QUERY<Client>,
-        private productStore: QUERY<Product>,
+        private clientUse: ServicePort<Client>,
+        private productUse: ServicePort<Product>,
         private saleStore: CRUD<Sale>
     ) { }
 
-    createSale(payload: Sale): Response {
-        let result = { status: true, message: "" };
-        const client = this.clientStore.find(payload.client_id);
+    create(payload: Sale): boolean {
+        let result = true;
+        const client = this.clientUse.read().find(client => client.id === payload.client_id);
 
         if (!client) {
-            result = { status: false, message: "Client not found" }
+            result = false
         }
 
         const items: SaleItem[] = [];
 
         payload.items.map(item => {
-            const product = this.productStore.find(item.product_id);
+            const product = this.productUse.read().find(product => product.id === item.product_id);
 
             if (!product) {
-                result = { status: false, message: "Product not found" }
+                result = false
             } else {
                 items.push({
                     id: item.id,
@@ -42,20 +37,20 @@ export class SaleService {
             }
         })
 
-        if (result.status === true) {
+        if (result === true) {
             const sale: Sale = { id: payload.id, client_id: client!.id, date: payload.date, items: items }
             this.saleStore.create(sale);
-            result = { status: true, message: "Sale created" }
+            result = true
         }
 
         return result;
     }
 
-    readSale(): Sale[] {
+    read(): Sale[] {
         return this.saleStore.read();
     }
 
-    deleteSale(id: number): void {
-        this.saleStore.delete(id);
+    delete(id: number): boolean {
+        return this.saleStore.delete(id);
     }
 }

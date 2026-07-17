@@ -1,22 +1,22 @@
 import { CRUD } from "../interfaces/crud.interface";
+import { ServicePort } from "../interfaces/service.interface";
 import { Product } from "../models/product.model";
 
-export class productService {
+export class ProductService implements ServicePort<Product> {
     constructor(
         private productStore: CRUD<Product>
     ) { }
 
-    createProduct(payload: Product): boolean {
-        const product: Product = payload;
-        return this.productStore.create(product);
+    create(payload: Product): boolean {
+        return this.productStore.create(payload);
     }
 
-    readProduct(): Array<Product> {
+    read(): Array<Product> {
         const products = this.productStore.read();
         return products;
     }
 
-    deleteProduct(id: number): boolean {
+    delete(id: number): boolean {
         return this.productStore.delete(id);
     }
 }
