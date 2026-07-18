@@ -21,7 +21,7 @@ const clientValidator: Validator<Client> = new ClientValidator();
 
 const clientUse: ServicePort<Client> = new ClientService(persistenceClient, clientValidator);
 const productUse: ServicePort<Product> = new ProductService(persistenceProduct);
-const saleUse: ServicePort<Sale> = new SaleService(clientUse, productUse, persistenceSale);
+const saleUse: ServicePort<Sale> = new SaleService(persistenceClient, persistenceProduct, persistenceSale);
 
 
 /* Point Entry */

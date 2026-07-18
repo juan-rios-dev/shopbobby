@@ -1,4 +1,5 @@
 import { CRUD } from "../interfaces/crud.interface";
+import { QUERY } from "../interfaces/query.interface";
 import { ServicePort } from "../interfaces/service.interface";
 import { Client } from "../models/client.model";
 import { Product } from "../models/product.model";
@@ -6,14 +7,14 @@ import { Sale, SaleItem } from "../models/sale.model";
 
 export class SaleService implements ServicePort<Sale> {
     constructor(
-        private clientUse: ServicePort<Client>,
-        private productUse: ServicePort<Product>,
+        private clientStore: QUERY<Client>,
+        private productStore: QUERY<Product>,
         private saleStore: CRUD<Sale>
     ) { }
 
     create(payload: Sale): boolean {
         let result = true;
-        const client = this.clientUse.read().find(client => client.id === payload.client_id);
+        const client = this.clientStore.find(payload.client_id);
 
         if (!client) {
             result = false
@@ -22,7 +23,7 @@ export class SaleService implements ServicePort<Sale> {
         const items: SaleItem[] = [];
 
         payload.items.map(item => {
-            const product = this.productUse.read().find(product => product.id === item.product_id);
+            const product = this.productStore.find(item.product_id);
 
             if (!product) {
                 result = false
