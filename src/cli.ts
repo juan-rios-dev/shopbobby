@@ -8,6 +8,7 @@ import { Sale } from "./models/sale.model";
 import { ClientService } from "./services/client.service";
 import { ProductService } from "./services/product.service";
 import { SaleService } from "./services/sale.service";
+import { JsonFileStore } from "./stores/json.store";
 import { MemoryStore } from "./stores/memory.store";
 import { ConsoleView } from "./ui/cli";
 import { ClientValidator } from "./validators/client.validator";
@@ -25,5 +26,5 @@ const saleUse: ServicePort<Sale> = new SaleService(persistenceClient, persistenc
 
 
 /* Point Entry */
-const app = new ConsoleView(clientUse, productUse, saleUse)
+const app = new ConsoleView(clientUse, productUse, saleUse);
 app.cli();

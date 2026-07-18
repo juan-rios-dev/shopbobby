@@ -7,19 +7,25 @@ export class MemoryStore<T extends { id: number }> implements QUERY<T> {
         this.collection.push(payload);
         return true;
     }
+
     read(): Array<T> {
-        return this.collection;
+        return [...this.collection];
     }
+
     update(id: number, payload: T): boolean {
         const index = this.collection.findIndex(item => item.id === id);
+        if (index === -1) return false;
         this.collection[index] = payload;
         return true;
     }
+
     delete(id: number): boolean {
         const index = this.collection.findIndex(item => item.id === id);
+        if (index === -1) return false;
         this.collection.splice(index, 1);
         return true;
     }
+
     find(id: number): T | undefined {
         return this.collection.find(item => item.id === id);
     }
