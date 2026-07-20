@@ -1,17 +1,19 @@
-import { CRUD } from "./interfaces/crud.interface";
-import { QUERY } from "./interfaces/query.interface";
-import { ServicePort } from "./interfaces/service.interface";
-import { Validator } from "./interfaces/validator.interface";
-import { Client } from "./models/client.model";
-import { Product } from "./models/product.model";
-import { Sale } from "./models/sale.model";
-import { ClientService } from "./services/client.service";
-import { ProductService } from "./services/product.service";
-import { SaleService } from "./services/sale.service";
-import { JsonFileStore } from "./stores/json.store";
-import { MemoryStore } from "./stores/memory.store";
-import { ConsoleView } from "./ui/cli";
-import { ClientValidator } from "./validators/client.validator";
+import { CRUD } from "@/domain/interfaces/crud.interface";
+import { QUERY } from "@/domain/interfaces/query.interface";
+import { Service } from "@/domain/interfaces/service.interface";
+import { Validator } from "@/domain/interfaces/validator.interface";
+import { Client } from "@/infrastructure/models/client.model";
+import { Product } from "@/infrastructure/models/product.model";
+import { Sale } from "@/infrastructure/models/sale.model";
+import { JsonFileStore } from "@/infrastructure/stores/json.store";
+import { MemoryStore } from "@/infrastructure/stores/memory.store";
+import { ConsoleView } from "@/presentation/cli";
+import { ClientValidator } from "@/application/validators/client.validator";
+import { ClientService } from "@/application/services/client.service";
+import { ProductService } from "@/application/services/product.service";
+import { SaleService } from "@/application/services/sale.service";
+import { ProductValidator } from "@/application/validators/product.validator";
+import { SaleValidator } from "@/application/validators/sale.validator";
 
 /* D-I */
 const persistenceClient: QUERY<Client> = new MemoryStore<Client>();
@@ -19,10 +21,12 @@ const persistenceProduct: QUERY<Product> = new MemoryStore<Product>();
 const persistenceSale: CRUD<Sale> = new MemoryStore<Sale>();
 
 const clientValidator: Validator<Client> = new ClientValidator();
+const productValidator: Validator<Product> = new ProductValidator();
+const saleValidator: Validator<Sale> = new SaleValidator(persistenceClient, persistenceProduct);
 
-const clientUse: ServicePort<Client> = new ClientService(persistenceClient, clientValidator);
-const productUse: ServicePort<Product> = new ProductService(persistenceProduct);
-const saleUse: ServicePort<Sale> = new SaleService(persistenceClient, persistenceProduct, persistenceSale);
+const clientUse: Service<Client> = new ClientService(persistenceClient, clientValidator);
+const productUse: Service<Product> = new ProductService(persistenceProduct, productValidator);
+const saleUse: Service<Sale> = new SaleService(persistenceSale, saleValidator);
 
 
 /* Point Entry */

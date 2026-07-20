@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { WebView } from './ui/web';
+import { WebView } from './presentation/web';
 const root = document.getElementById("root");
 
 const app = new WebView();

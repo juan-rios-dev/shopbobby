@@ -1,9 +1,9 @@
-import { Client } from "../models/client.model";
-import { QUERY } from "../interfaces/query.interface";
-import { ServicePort } from "../interfaces/service.interface";
-import { Validator } from "../interfaces/validator.interface";
+import { Client } from "@/infrastructure/models/client.model";
+import { QUERY } from "@/domain/interfaces/query.interface";
+import { Service } from "@/domain/interfaces/service.interface";
+import { Validator } from "@/domain/interfaces/validator.interface";
 
-export class ClientService implements ServicePort<Client> {
+export class ClientService implements Service<Client> {
     constructor(
         private clientStore: QUERY<Client>,
         private validator: Validator<Client>

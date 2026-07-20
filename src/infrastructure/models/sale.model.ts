@@ -6,9 +6,9 @@ export type Sale = {
 }
 
 export type SaleItem = {
-    id: number;
+    id?: number;
     sale_id: number;
     product_id: number;
     quantity: number;
-    price: number;
+    price?: number;
 }

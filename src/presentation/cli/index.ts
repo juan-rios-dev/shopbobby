@@ -1,15 +1,15 @@
+import { Service } from '@/domain/interfaces/service.interface';
+import { Client } from '@/infrastructure/models/client.model';
+import { Product } from '@/infrastructure/models/product.model';
+import { Sale, SaleItem } from '@/infrastructure/models/sale.model';
 import prompts from 'prompts';
-import { Client } from '../../models/client.model';
-import { Product } from '../../models/product.model';
-import { Sale } from '../../models/sale.model';
-import { ServicePort } from '../../interfaces/service.interface';
 
 export class ConsoleView {
 
     constructor(
-        private clientUse: ServicePort<Client>,
-        private productUse: ServicePort<Product>,
-        private saleUse: ServicePort<Sale>,
+        private clientUse: Service<Client>,
+        private productUse: Service<Product>,
+        private saleUse: Service<Sale>,
     ) { }
 
     async cli(): Promise<void> {
@@ -76,7 +76,7 @@ export class ConsoleView {
             console.log("Cliente creado con éxito");
             console.table(this.clientUse.read());
         } catch (error) {
-            if (error instanceof Error){
+            if (error instanceof Error) {
                 console.log(error.message)
             }
         }
@@ -99,36 +99,73 @@ export class ConsoleView {
             stock: respuestas.stock,
         };
 
-        this.productUse.create(product);
-        console.log("Producto creado con éxito");
-        console.table(this.productUse.read());
+        try {
+            this.productUse.create(product);
+            console.log("Producto creado con éxito");
+            console.table(this.productUse.read());
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error.message)
+            }
+        }
     }
 
     async crearVenta(): Promise<void> {
-        const respuestas = await prompts([
-            { type: "number", name: "id", message: "Ingresa ID de la venta" },
-            { type: "number", name: "client_id", message: "Ingresa ID del cliente" },
-            { type: "number", name: "product_id", message: "Ingresa ID del producto" },
-            { type: "number", name: "quantity", message: "Ingresa CANTIDAD del producto" },
+        const client = await prompts([
+            { type: "number", name: "id", message: "Ingresa ID del cliente" },
         ]);
 
-        const sale: Sale = {
-            id: respuestas.id,
-            client_id: respuestas.client_id,
-            date: new Date().toISOString(),
-            items: [
+        const uuid = Date.now();
+        const items: SaleItem[] = [];
+        let seguir = true;
+
+        while (seguir) {
+            const respuestas = await prompts([
                 {
-                    id: 0,
-                    sale_id: respuestas.id,
-                    product_id: respuestas.product_id,
-                    quantity: respuestas.quantity,
-                    price: 0,
+                    type: "number",
+                    name: "product_id",
+                    message: "Ingresa ID del producto"
                 },
-            ],
+                {
+                    type: "number",
+                    name: "quantity",
+                    message: "Ingresa CANTIDAD del producto"
+                },
+                {
+                    type: "text",
+                    name: "continuar",
+                    message: "¿Agregar otro producto? (s/n)",
+                    validate: (value) => /^[sn]$/i.test(value) || "Solo ingresa 's' o 'n'"
+                }
+            ])
+
+            items.push({
+                id: items.length,
+                sale_id: uuid,
+                product_id: respuestas.product_id,
+                quantity: respuestas.quantity,
+            })
+
+            if (respuestas.continuar.toLowerCase() === "n") {
+                seguir = false;
+            }
+        }
+
+        const sale: Sale = {
+            id: uuid,
+            client_id: client.id,
+            date: new Date().toISOString(),
+            items: items,
         };
 
-        const response = this.saleUse.create(sale);
-        console.log(response);
-        console.table(this.saleUse.read());
+        try {
+            this.saleUse.create(sale);
+            console.log("Venta realizada con exito");
+            console.table(this.saleUse.read());
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error.message)
+            }
+        }
     }
 }

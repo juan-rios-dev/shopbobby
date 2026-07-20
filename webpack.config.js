@@ -7,6 +7,7 @@ module.exports = [
         target: "web",
         devServer: {
             port: 8080,
+            open: true
         },
         entry: './src/web.ts',
         module: {
@@ -26,6 +27,9 @@ module.exports = [
             ]
         },
         resolve: {
+            alias: {
+                '@': path.resolve(__dirname, 'src/'),
+            },
             extensions: ['.ts', '.js']
         },
         output: {
@@ -51,6 +55,9 @@ module.exports = [
             ]
         },
         resolve: {
+            alias: {
+                '@': path.resolve(__dirname, 'src/'),
+            },
             extensions: ['.ts', '.js']
         },
         output: {
