@@ -1,7 +1,7 @@
+import { Client } from '@/domain/entities/client.model';
+import { Product } from '@/domain/entities/product.model';
+import { Sale, SaleItem } from '@/domain/entities/sale.model';
 import { Service } from '@/domain/interfaces/service.interface';
-import { Client } from '@/infrastructure/models/client.model';
-import { Product } from '@/infrastructure/models/product.model';
-import { Sale, SaleItem } from '@/infrastructure/models/sale.model';
 import prompts from 'prompts';
 
 export class ConsoleView {

@@ -1,4 +1,5 @@
-import { Client } from "@/infrastructure/models/client.model";
+
+import { Client } from "@/domain/entities/client.model";
 import { QUERY } from "@/domain/interfaces/query.interface";
 import { Service } from "@/domain/interfaces/service.interface";
 import { Validator } from "@/domain/interfaces/validator.interface";

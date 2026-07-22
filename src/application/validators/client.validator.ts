@@ -1,4 +1,4 @@
-import { Client } from "@/infrastructure/models/client.model";
+import { Client } from "@/domain/entities/client.model";
 import { Validator } from "@/domain/interfaces/validator.interface";
 
 export class ClientValidator implements Validator<Client> {

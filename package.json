@@ -7,7 +7,8 @@
     "dev": "webpack serve --config-name web",
     "dev:console": "tsx ./src/cli.ts",
     "build": "webpack",
-    "start:console": "node dist/cli.bundle.js"
+    "start:console": "node dist/cli.bundle.js",
+    "start:web": "npx http-server dist -p 3000"
   },
   "author": "Juan Rios",
   "license": "ISC",

@@ -6,7 +6,7 @@ module.exports = [
         name: "web",
         target: "web",
         devServer: {
-            port: 8080,
+            port: 8000,
             open: true
         },
         entry: './src/web.ts',
@@ -35,6 +35,7 @@ module.exports = [
         output: {
             filename: 'web.bundle.js',
             path: path.resolve(__dirname, 'dist'),
+            clean: true
         },
         plugins: [new HtmlWebpackPlugin({
             template: './index.html'
@@ -63,7 +64,6 @@ module.exports = [
         output: {
             filename: 'cli.bundle.js',
             path: path.resolve(__dirname, 'dist'),
-            clean: true
         },
         mode: 'development'
     },

@@ -1,8 +1,8 @@
+import { Client } from "@/domain/entities/client.model";
+import { Product } from "@/domain/entities/product.model";
+import { Sale } from "@/domain/entities/sale.model";
 import { QUERY } from "@/domain/interfaces/query.interface";
 import { Validator } from "@/domain/interfaces/validator.interface";
-import { Client } from "@/infrastructure/models/client.model";
-import { Product } from "@/infrastructure/models/product.model";
-import { Sale } from "@/infrastructure/models/sale.model";
 
 export class SaleValidator implements Validator<Sale> {
     constructor(

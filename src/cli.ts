@@ -2,11 +2,6 @@ import { CRUD } from "@/domain/interfaces/crud.interface";
 import { QUERY } from "@/domain/interfaces/query.interface";
 import { Service } from "@/domain/interfaces/service.interface";
 import { Validator } from "@/domain/interfaces/validator.interface";
-import { Client } from "@/infrastructure/models/client.model";
-import { Product } from "@/infrastructure/models/product.model";
-import { Sale } from "@/infrastructure/models/sale.model";
-import { JsonFileStore } from "@/infrastructure/stores/json.store";
-import { MemoryStore } from "@/infrastructure/stores/memory.store";
 import { ConsoleView } from "@/presentation/cli";
 import { ClientValidator } from "@/application/validators/client.validator";
 import { ClientService } from "@/application/services/client.service";
@@ -14,6 +9,10 @@ import { ProductService } from "@/application/services/product.service";
 import { SaleService } from "@/application/services/sale.service";
 import { ProductValidator } from "@/application/validators/product.validator";
 import { SaleValidator } from "@/application/validators/sale.validator";
+import { Client } from "./domain/entities/client.model";
+import { Product } from "./domain/entities/product.model";
+import { Sale } from "./domain/entities/sale.model";
+import { MemoryStore } from "./infrastructure/repositories/memory.repository";
 
 /* D-I */
 const persistenceClient: QUERY<Client> = new MemoryStore<Client>();

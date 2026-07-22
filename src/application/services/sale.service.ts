@@ -1,7 +1,7 @@
+import { Sale } from "@/domain/entities/sale.model";
 import { CRUD } from "@/domain/interfaces/crud.interface";
 import { Service } from "@/domain/interfaces/service.interface";
 import { Validator } from "@/domain/interfaces/validator.interface";
-import { Sale } from "@/infrastructure/models/sale.model";
 
 export class SaleService implements Service<Sale> {
     constructor(
