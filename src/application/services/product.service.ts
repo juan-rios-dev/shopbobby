@@ -1,7 +1,7 @@
-import { Product } from "@/domain/entities/product.model";
-import { CRUD } from "@/domain/interfaces/crud.interface";
-import { Service } from "@/domain/interfaces/service.interface";
-import { Validator } from "@/domain/interfaces/validator.interface";
+import { Product } from "@/domain/entities/product.entity";
+import { CRUD } from "@/domain/types/crud.type";
+import { Service } from "@/domain/types/service.type";
+import { Validator } from "@/domain/types/validator.type";
 
 export class ProductService implements Service<Product> {
     constructor(

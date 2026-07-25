@@ -22,6 +22,7 @@ npm install
 | `npm run dev:console` | Ejecuta la aplicación de consola en modo desarrollo. |
 | `npm run build` | Compila la aplicación web y la CLI. |
 | `npm run start:console` | Ejecuta la CLI compilada. |
+| `npm run start:web` | Inicia la aplicacion web compilada. |
 
 ## Estructura del proyecto
 

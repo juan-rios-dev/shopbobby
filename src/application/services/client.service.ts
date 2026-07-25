@@ -1,8 +1,8 @@
 
-import { Client } from "@/domain/entities/client.model";
-import { QUERY } from "@/domain/interfaces/query.interface";
-import { Service } from "@/domain/interfaces/service.interface";
-import { Validator } from "@/domain/interfaces/validator.interface";
+import { Client } from "@/domain/entities/client.entity";
+import { QUERY } from "@/domain/types/query.type";
+import { Service } from "@/domain/types/service.type";
+import { Validator } from "@/domain/types/validator.type";
 
 export class ClientService implements Service<Client> {
     constructor(

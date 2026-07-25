@@ -1,5 +1,5 @@
-import { Product } from "@/domain/entities/product.model";
-import { Validator } from "@/domain/interfaces/validator.interface";
+import { Product } from "@/domain/entities/product.entity";
+import { Validator } from "@/domain/types/validator.type";
 
 export class ProductValidator implements Validator<Product> {
     validate(payload: Product): void {
