@@ -1,14 +1,15 @@
 import { Client } from "@/domain/entities/client.entity";
 import { Product } from "@/domain/entities/product.entity";
 import { Sale } from "@/domain/entities/sale.entity";
-import { QUERY } from "@/domain/types/query.type";
-import { Validator } from "@/domain/types/validator.type";
+import { QUERY } from "@/domain/interfaces/query.interface";
+import { Validator } from "@/domain/interfaces/validator.interface";
 
 export class SaleValidator implements Validator<Sale> {
     constructor(
         private clientStore: QUERY<Client>,
         private productStore: QUERY<Product>
-    ) { }
+    ) {}
+
     validate(payload: Sale): void {
         const rules: [boolean, string][] = [
             [!payload.client_id, "El cliente es requerido"],

@@ -1,7 +1,7 @@
 import { Client } from '@/domain/entities/client.entity';
 import { Product } from '@/domain/entities/product.entity';
 import { Sale, SaleItem } from '@/domain/entities/sale.entity';
-import { Service } from '@/domain/types/service.type';
+import { Service } from '@/domain/interfaces/service.interface';
 import prompts from 'prompts';
 
 export class ConsoleView {
@@ -46,11 +46,18 @@ export class ConsoleView {
             case "3":
                 await this.crearVenta();
                 return false;
+            case "4":
+                await this.listarProducts();
+                return false;
             case "0":
                 console.log("Saliendo...");
                 return true;
             default:
+                console.log("");
+                console.log("-- -- -- -- -- -- -- --");
                 console.log("Opción inválida");
+                console.log("-- -- -- -- -- -- -- --");
+                console.log("");
                 return false;
         }
     }
@@ -167,5 +174,9 @@ export class ConsoleView {
                 console.log(error.message)
             }
         }
+    }
+
+    async listarProducts(): Promise<void> {
+        console.table(this.productUse.read());
     }
 }

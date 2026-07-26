@@ -9,10 +9,10 @@ import { Client } from "./domain/entities/client.entity";
 import { Product } from "./domain/entities/product.entity";
 import { Sale } from "./domain/entities/sale.entity";
 import { MemoryStore } from "./infrastructure/repositories/memory.repository";
-import { QUERY } from "./domain/types/query.type";
-import { Validator } from "./domain/types/validator.type";
-import { CRUD } from "./domain/types/crud.type";
-import { Service } from "./domain/types/service.type";
+import { QUERY } from "./domain/interfaces/query.interface";
+import { Validator } from "./domain/interfaces/validator.interface";
+import { CRUD } from "./domain/interfaces/crud.interface";
+import { Service } from "./domain/interfaces/service.interface";
 
 /* D-I */
 const persistenceClient: QUERY<Client> = new MemoryStore<Client>();
@@ -25,7 +25,7 @@ const saleValidator: Validator<Sale> = new SaleValidator(persistenceClient, pers
 
 const clientUse: Service<Client> = new ClientService(persistenceClient, clientValidator);
 const productUse: Service<Product> = new ProductService(persistenceProduct, productValidator);
-const saleUse: Service<Sale> = new SaleService(persistenceSale, saleValidator);
+const saleUse: Service<Sale> = new SaleService(persistenceSale, persistenceProduct, saleValidator);
 
 
 /* Point Entry */

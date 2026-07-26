@@ -1,4 +1,4 @@
-import { CRUD } from "@/domain/types/crud.type";
+import { CRUD } from "@/domain/interfaces/crud.interface";
 import { readFileSync, writeFileSync, existsSync } from "fs";
 
 export class JsonFileStore<T extends { id: number }> implements CRUD<T> {

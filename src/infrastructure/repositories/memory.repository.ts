@@ -1,4 +1,4 @@
-import { QUERY } from "@/domain/types/query.type";
+import { QUERY } from "@/domain/interfaces/query.interface";
 
 
 export class MemoryStore<T extends { id: number }> implements QUERY<T> {
