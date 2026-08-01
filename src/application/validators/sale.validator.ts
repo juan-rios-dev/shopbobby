@@ -14,6 +14,7 @@ export class SaleValidator implements Validator<Sale> {
         const rules: [boolean, string][] = [
             [!payload.client_id, "El cliente es requerido"],
             [!payload.items?.length, "Debe tener al menos un producto"],
+            [payload.total < 0, "Calculo Invalido"],
         ];
 
         for (const [condition, message] of rules) {

@@ -22,6 +22,7 @@ export class ConsoleView {
             console.log("1. Registrar Cliente");
             console.log("2. Registrar Producto");
             console.log("3. Registrar Venta");
+            console.log("4. Listar Productos");
             console.log("0. Salir");
             console.log("");
 
@@ -79,9 +80,13 @@ export class ConsoleView {
             address: respuestas.address,
         };
         try {
-            this.clientUse.create(client);
-            console.log("Cliente creado con éxito");
-            console.table(this.clientUse.read());
+            const result = this.clientUse.create(client);
+            if (result) {
+                console.log("Cliente creado con éxito");
+                console.table(this.clientUse.read());
+            } else {
+                console.log("Error al crear el cliente")
+            }
         } catch (error) {
             if (error instanceof Error) {
                 console.log(error.message)
@@ -107,9 +112,13 @@ export class ConsoleView {
         };
 
         try {
-            this.productUse.create(product);
-            console.log("Producto creado con éxito");
-            console.table(this.productUse.read());
+            const result = this.productUse.create(product);
+            if (result) {
+                console.log("Producto creado con éxito");
+                console.table(this.productUse.read());
+            } else {
+                console.log("Error al crear el producto")
+            }
         } catch (error) {
             if (error instanceof Error) {
                 console.log(error.message)
@@ -122,7 +131,6 @@ export class ConsoleView {
             { type: "number", name: "id", message: "Ingresa ID del cliente" },
         ]);
 
-        const uuid = Date.now();
         const items: SaleItem[] = [];
         let seguir = true;
 
@@ -148,7 +156,7 @@ export class ConsoleView {
 
             items.push({
                 id: items.length,
-                sale_id: uuid,
+                sale_id: "",
                 product_id: respuestas.product_id,
                 quantity: respuestas.quantity,
             })
@@ -159,16 +167,21 @@ export class ConsoleView {
         }
 
         const sale: Sale = {
-            id: uuid,
+            id: "",
             client_id: client.id,
             date: new Date().toISOString(),
             items: items,
+            total: 0
         };
 
         try {
-            this.saleUse.create(sale);
-            console.log("Venta realizada con exito");
-            console.table(this.saleUse.read());
+            const result = this.saleUse.create(sale);
+            if (result) {
+                console.log("Venta realizada con exito");
+                console.log(JSON.stringify(this.saleUse.read(), null, 2));
+            } else {
+                console.log("Error al realizar la venta")
+            }
         } catch (error) {
             if (error instanceof Error) {
                 console.log(error.message)
