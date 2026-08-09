@@ -22,7 +22,9 @@ export class ConsoleView {
             console.log("1. Registrar Cliente");
             console.log("2. Registrar Producto");
             console.log("3. Registrar Venta");
-            console.log("4. Listar Productos");
+            console.log("4. Listar Clientes");
+            console.log("5. Listar Productos");
+            console.log("6. Listar Ventas");
             console.log("0. Salir");
             console.log("");
 
@@ -48,7 +50,13 @@ export class ConsoleView {
                 await this.crearVenta();
                 return false;
             case "4":
+                await this.listarClients();
+                return false;
+            case "5":
                 await this.listarProducts();
+                return false;
+            case "6":
+                await this.listarSales();
                 return false;
             case "0":
                 console.log("Saliendo...");
@@ -189,7 +197,15 @@ export class ConsoleView {
         }
     }
 
+    async listarClients(): Promise<void> {
+        console.table(this.clientUse.read());
+    }
+
     async listarProducts(): Promise<void> {
         console.table(this.productUse.read());
+    }
+
+    async listarSales(): Promise<void> {
+        console.table(JSON.stringify(this.saleUse.read(), null, 2));
     }
 }

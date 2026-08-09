@@ -29,7 +29,6 @@ export function Bootstrap() {
     const generate: GeneratorId = new CryptoGenerator();
     const calculatorTotal: ICalculator<Sale> = new CalculatorTotal();
 
-
     const clientUse: Service<Client> = new ClientService(persistenceClient, clientValidator);
     const productUse: Service<Product> = new ProductService(persistenceProduct, productValidator);
     const saleUse: Service<Sale> = new SaleService(persistenceSale, persistenceProduct, saleValidator, generate, calculatorTotal);

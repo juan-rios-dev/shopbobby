@@ -29,10 +29,10 @@ npm install
 ```
 src/
 ├── config/
-├── interfaces/
-├── models/
-├── services/
-├── stores/
+├── application/            # Casos de uso y lógica de aplicación
+├── domain/                 # Entidades y lógica de dominio
+├── insfrastructure/        # Implementaciones técnicas y adaptadores
+├── presentation/
 ├── cli.ts
 └── web.ts
 ```
