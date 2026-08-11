@@ -1,6 +1,5 @@
 import { QUERY } from "@/domain/interfaces/query.interface";
 
-
 export class MemoryStore<T extends { id: number | string }> implements QUERY<T> {
     constructor(private collection: Array<T> = []) { }
 
