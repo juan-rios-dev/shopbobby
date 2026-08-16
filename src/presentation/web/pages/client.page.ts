@@ -12,6 +12,9 @@ export function ClientPage(clientUse: Service<Client>): { html: string, init?: (
                 <td>${client.email}</td>
                 <td>${client.phone}</td>
                 <td>${client.address}</td>
+                <td>
+                    <button type="button" class="btn-delete" data-id="${client.id}" >Delete</button>
+                </td>
             </tr>
         `).join('');
     };
@@ -28,6 +31,15 @@ export function ClientPage(clientUse: Service<Client>): { html: string, init?: (
         const saveClient = document.getElementById("saveClient");
         const modalElement = document.getElementById("staticBackdrop");
         const tbody = document.querySelector("tbody");
+
+        tbody?.addEventListener("click", (event) => {
+            const btn = (event.target as HTMLElement).closest<HTMLButtonElement>(".btn-delete");
+
+            const id = Number(btn?.dataset.id)
+            clientUse.delete(id);
+
+            tbody.innerHTML = renderTable();
+        })
 
         saveClient?.addEventListener("click", () => {
             const id = parseInt((document.getElementById("id") as HTMLInputElement).value);
