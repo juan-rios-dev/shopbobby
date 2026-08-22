@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap';
 import { WebView } from './presentation/web';
 import { Router } from './presentation/web/router';
@@ -8,7 +9,7 @@ const root = document.getElementById("root");
 const { clientUse, productUse, saleUse } = Bootstrap();
 const router = new Router();
 
-const app = new WebView(router, clientUse);
+const app = new WebView(router, clientUse, productUse, saleUse);
 
 root!.innerHTML = app.render();
 

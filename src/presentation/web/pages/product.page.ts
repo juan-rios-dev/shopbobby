@@ -1,18 +1,18 @@
-import { Client } from "@/domain/entities/client.entity";
+import { Product } from "@/domain/entities/product.entity";
 import { Service } from "@/domain/interfaces/service.interface";
 import { Modal } from 'bootstrap';
 
-export function ClientPage(clientUse: Service<Client>): { html: string, init?: () => void } {
+export function ProductPage(productUse: Service<Product>): { html: string, init?: () => void } {
     function renderTable() {
-        return clientUse.read().map((client, index) => `
+        return productUse.read().map((product, index) => `
             <tr>
-                <td>${client.id}</td>
-                <td>${client.name}</td>
-                <td>${client.email}</td>
-                <td>${client.phone}</td>
-                <td>${client.address}</td>
+                <td>${product.id}</td>
+                <td>${product.name}</td>
+                <td>${product.price}</td>
+                <td>${product.description}</td>
+                <td>${product.stock}</td>
                 <td>
-                    <button type="button" class="btn-delete btn btn-sm btn-danger" data-id="${client.id}" ><i class="bi bi-trash-fill"></i></button>
+                    <button type="button" class="btn-delete btn btn-sm btn-danger" data-id="${product.id}" ><i class="bi bi-trash-fill"></i></button>
                 </td>
             </tr>
         `).join('');
@@ -21,13 +21,13 @@ export function ClientPage(clientUse: Service<Client>): { html: string, init?: (
     function clearForm() {
         (document.getElementById("id") as HTMLInputElement).value = "";
         (document.getElementById("name") as HTMLInputElement).value = "";
-        (document.getElementById("email") as HTMLInputElement).value = "";
-        (document.getElementById("phone") as HTMLInputElement).value = "";
-        (document.getElementById("address") as HTMLInputElement).value = "";
+        (document.getElementById("price") as HTMLInputElement).value = "";
+        (document.getElementById("description") as HTMLInputElement).value = "";
+        (document.getElementById("stock") as HTMLInputElement).value = "";
     }
 
     function init() {
-        const saveClient = document.getElementById("saveClient");
+        const saveProduct = document.getElementById("saveProduct");
         const modalElement = document.getElementById("staticBackdrop");
         const tbody = document.querySelector("tbody");
 
@@ -35,20 +35,20 @@ export function ClientPage(clientUse: Service<Client>): { html: string, init?: (
             const btn = (event.target as HTMLElement).closest<HTMLButtonElement>(".btn-delete");
 
             const id = Number(btn?.dataset.id)
-            clientUse.delete(id);
+            productUse.delete(id);
 
             tbody.innerHTML = renderTable();
         })
 
-        saveClient?.addEventListener("click", () => {
+        saveProduct?.addEventListener("click", () => {
             const id = parseInt((document.getElementById("id") as HTMLInputElement).value);
             const name = (document.getElementById("name") as HTMLInputElement).value;
-            const email = (document.getElementById("email") as HTMLInputElement).value;
-            const phone = (document.getElementById("phone") as HTMLInputElement).value;
-            const address = (document.getElementById("address") as HTMLInputElement).value;
+            const price = parseFloat((document.getElementById("price") as HTMLInputElement).value);
+            const description = (document.getElementById("description") as HTMLInputElement).value;
+            const stock = parseInt((document.getElementById("stock") as HTMLInputElement).value);
 
-            const client: Client = { id, name, email, phone, address };
-            clientUse.create(client);
+            const client: Product = { id, name, price, description, stock };
+            productUse.create(client);
             clearForm();
 
             if (tbody) {
@@ -64,21 +64,20 @@ export function ClientPage(clientUse: Service<Client>): { html: string, init?: (
 
     const html = `
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h2>Listado de clientes</h2>
+            <h2>Listado de productos</h2>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                + Agregar Cliente
+                + Agregar Producto
             </button>
         </div>
         <div class="table-responsive">
-            <table class="table table-striped table-sm text-center align-middle">
+            <table class="table table-striped table-sm">
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Dirección</th>
-                        <th scope="col">Acciones</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Stock</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,7 +90,7 @@ export function ClientPage(clientUse: Service<Client>): { html: string, init?: (
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Nuevo Cliente</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Nuevo Producto</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -102,26 +101,23 @@ export function ClientPage(clientUse: Service<Client>): { html: string, init?: (
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
                         <input type="text" class="form-control" id="name" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                        <div id="name-error" class="invalid-feedback">
-                            El nombre del cliente no puede estar vacío
-                        </div>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
-                        <input type="text" class="form-control" id="email" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Precio</span>
+                        <input type="number" class="form-control" id="price" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
-                        <input type="text" class="form-control" id="phone" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Descripción</span>
+                        <input type="text" class="form-control" id="description" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Dirección</span>
-                        <input type="text" class="form-control" id="address" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Cantidad</span>
+                        <input type="number" class="form-control" id="stock" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="saveClient">Guardar</button>
+                    <button type="button" class="btn btn-primary" id="saveProduct">Guardar</button>
                 </div>
             </div>
         </div>
