@@ -1,11 +1,320 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Bobby</title>
 </head>
+
 <body>
-    <div id="root"></div>
+    <div class="login-wrapper">
+        <main id="login-screen" class="form-signin" hidden>
+            <form id="login-form">
+
+                <div class="login-header">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6fPDumt4cyD4Ex7e2r0gDeVrHL-SFDYdO_JwLYmZB2A&s=10"
+                        alt="Logo" class="login-logo">
+                    <h1>Iniciar Sesión</h1>
+                    <p>Ingresa tus datos para continuar</p>
+                </div>
+
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="email" placeholder="name@example.com">
+                    <label for="email">Usuario</label>
+                </div>
+
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <label for="password">Contraseña</label>
+                </div>
+
+                <button class="btn btn-primary w-100 py-2" type="submit">
+                    Iniciar sesión
+                </button>
+
+            </form>
+        </main>
+    </div>
+
+    <div id="app-screen">
+        <div class="sidebar">
+            <div class="logo">
+                <h4 class="fw-bold">
+                    <i class="bi bi-shop-window"></i>
+                    ShopBobby
+                </h4>
+            </div>
+
+            <nav>
+                <a href="#" class="nav-item active" id="nav-home" data-section="home">
+                    <i class="bi bi-house"></i>
+                    Home
+                </a>
+                <a href="#" class="nav-item" id="nav-clients" data-section="clients">
+                    <i class="bi bi-person-add"></i>
+                    Clientes
+                </a>
+                <a href="#" class="nav-item" id="nav-products" data-section="products">
+                    <i class="bi bi-boxes"></i>
+                    Productos
+                </a>
+                <a href="#" class="nav-item" id="nav-sales" data-section="sales">
+                    <i class="bi bi-cart-check"></i>
+                    Ventas
+                </a>
+            </nav>
+
+            <div class="user-section">
+                <div class="user-info" id="user_info">
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <header class="header">
+                <div class="search-box">
+                    <input type="text" class="form-control" placeholder="Search...">
+                </div>
+                <div class="actions">
+                    <button><i class="bi bi-cloud-sun-fill"></i></button>
+                    <button><i class="bi bi-gear"></i></button>
+                </div>
+            </header>
+
+            <section id="nav-home" class="content section">
+                <div class="d-flex justify-content-between align-items-center border-bottom">
+                    <h2>Home</h2>
+                </div>
+            </section>
+
+            <section id="nav-clients" class="content section" hidden>
+                <div class="d-flex align-items-center justify-content-between border-bottom mb-3">
+                    <h2>Listado de clientes</h2>
+
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#staticClient">
+                        <i class="bi bi-plus-square"></i>
+                        Añadir
+                    </button>
+
+                    <div class="modal fade" id="staticClient" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticClientLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticClientLabel">Formulario Cliente
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <input class="form-control" type="number" placeholder="ID" id="id_client">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="text" placeholder="Nombre" id="name_client">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="email" placeholder="Email" id="email_client">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="tel" placeholder="Telefóno" id="phone_client">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="text" placeholder="Dirección"
+                                            id="address_client">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" id="btn-add-client" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered text-center">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clients-tbody">
+                            <tr class="empty-row">
+                                <td>
+                                    No hay registrados.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="nav-products" class="content section" hidden>
+                <div class="d-flex align-items-center justify-content-between border-bottom mb-3">
+                    <h2>Listado de productos</h2>
+
+                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#staticProduct">
+                        <i class="bi bi-plus-square"></i>
+                        Añadir
+                    </button>
+
+                    <div class="modal fade" id="staticProduct" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticProductLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticProductLabel">Formulario Producto
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <input class="form-control" type="number" placeholder="ID" id="id_product">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="text" placeholder="Nombre" id="name_product">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="number" placeholder="Precio"
+                                            id="price_product">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="text" placeholder="Descripción"
+                                            id="description_product">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="number" placeholder="Cantidad"
+                                            id="stock_product">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" id="btn-add-product" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered text-center">
+                        <thead class="table-success">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Descripcion</th>
+                                <th>Cantidad</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-tbody">
+                            <tr class="empty-row">
+                                <td>
+                                    No hay registros.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="nav-sales" class="content section" hidden>
+                <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                    <h2>Vender</h2>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <label class="form-label">Cliente</label>
+                        <select class="form-select" id="selectClient">
+                        </select>
+                    </div>
+
+                    <div class="col-4">
+                        <label class="form-label">Producto</label>
+                        <select class="form-select" id="selectProduct">
+                        </select>
+                    </div>
+
+                    <div class="col-2 d-flex align-items-end">
+                        <button class="btn btn-primary w-100" id="add_product">Agregar</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Descripcion</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaProductos">
+                            <tr>
+                                <td colspan="4" class="text-muted text-center">Sin productos</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-end mb-4">
+                    <div style="width: 300px;">
+                        <div class="d-flex justify-content-between p-2 border-top border-bottom">
+                            <strong>Total Venta:</strong>
+                            <strong id="total_sale">$0</strong>
+                        </div>
+                        <button class="btn btn-success w-100 mt-2" id="btn_save">Confirmar Venta</button>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-between align-items-center pb-2 mb-3 border-bottom">
+                    <h3>Ventas Realizadas</h3>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-tbody">
+                            <tr class="empty-row">
+                                <td>
+                                    No hay registros.
+                                </td>
+                            </tr>
+                            </tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
 </body>
+
 </html>

@@ -48,7 +48,7 @@ export class SaleService implements Service<Sale> {
         return this.saleStore.read();
     }
 
-    delete(id: number): boolean {
+    delete(id: string): boolean {
         return this.saleStore.delete(id);
     }
 }

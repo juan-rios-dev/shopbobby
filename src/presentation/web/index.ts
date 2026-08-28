@@ -1,43 +1,112 @@
-import { LayoutComponent } from "./components/layout.component";
-import { ClientPage } from "./pages/client.page";
-import { HomePage } from "./pages/home.page";
-import { Router } from "./router";
-import "@/presentation/web/styles.css"
 import { Client } from "@/domain/entities/client.entity";
-import { Service } from "@/domain/interfaces/service.interface";
-import { ProductPage } from "./pages/product.page";
 import { Product } from "@/domain/entities/product.entity";
-import { SalePage } from "./pages/sale.page";
 import { Sale } from "@/domain/entities/sale.entity";
-import { CreateSalePage } from "./pages/create.page";
+import { Service } from "@/domain/interfaces/service.interface";
+import { ClientHandler } from "./handlers/client.handler";
+import { LoginHandler } from "./handlers/login.handler";
+import { AuthGuard } from "./guard/auth.guard";
+import "@/presentation/web/index.css"
+import { ProductHandler } from "./handlers/product.handler";
+import { SaleHandler } from "./handlers/sale.handler";
 
-export class WebView {
+export class WebController {
+    private clientHandler!: ClientHandler
+    private productHandler!: ProductHandler
+    private saleHandler!: SaleHandler
+    private auth = new AuthGuard();
 
     constructor(
-        private router: Router,
-        private clientUse: Service<Client>,
-        private productUse: Service<Product>,
-        private saleUse: Service<Sale>
+        private clientService: Service<Client>,
+        private productService: Service<Product>,
+        private saleService: Service<Sale>,
     ) {
-        this.registerRouter()
+        this.boot();
     }
 
-    private registerRouter() {
-        this.router.register("/", () => LayoutComponent(HomePage()));
-        this.router.register("/clients", () => LayoutComponent(ClientPage(this.clientUse)));
-        this.router.register("/products", () => LayoutComponent(ProductPage(this.productUse)));
-        this.router.register("/sales", () => LayoutComponent(SalePage(this.saleUse)));
-        this.router.register("/create/sale", () => LayoutComponent(CreateSalePage(this.clientUse, this.productUse, this.saleUse)));
-    }
-
-    render(): string {
-        const currentPath = window.location.pathname;
-        const route = this.router.navigator(currentPath);
-
-        if (route.init) {
-            setTimeout(() => route.init?.(), 0);
+    private boot(): void {
+        if (this.auth.isAuthenticated()) {
+            this.showApp();
+        } else {
+            this.showLogin();
         }
+    }
 
-        return route.html;
+    private init(): void {
+        this.clientHandler = new ClientHandler(this.clientService);
+        this.productHandler = new ProductHandler(this.productService);
+        this.saleHandler = new SaleHandler(this.clientService, this.productService, this.saleService);
+
+        this.renderProfile();
+        this.setupNavigation();
+        this.clientHandler.setup();
+        this.clientHandler.render();
+        this.productHandler.setup();
+        this.productHandler.render();
+        this.saleHandler.setup();
+        this.saleHandler.render();
+    }
+
+    private showLogin() {
+        const loginScreen = document.getElementById("login-screen");
+        const appScreen = document.getElementById("app-screen");
+
+        loginScreen!.hidden = false;
+        appScreen!.hidden = true;
+
+        new LoginHandler(this.auth, () => {
+            this.showApp();
+        }).setup();
+    }
+
+    private showApp() {
+        const loginScreen = document.getElementById("login-screen");
+        const appScreen = document.getElementById("app-screen");
+
+        loginScreen!.hidden = true;
+        appScreen!.hidden = false;
+
+        this.init()
+    }
+
+    private renderProfile(): void {
+        const user_info = document.getElementById("user_info");
+        const user = this.auth.getCurrentUser();
+
+        user_info!.innerHTML = `
+            <div class="user-profile-header">
+                <img src="${user.avatar}" alt="${user.username}" class="user-avatar" />
+                <div class="user-details">
+                    <p class="user-name">${user.username}</p>
+                    <small class="user-email">${user.email}</small>
+                </div>
+                <button type="button" id="logout" class="btn-logout" aria-label="Cerrar sesión">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </div>
+        `;
+
+        const logout = document.getElementById("logout");
+        logout?.addEventListener("click", () => {
+            this.auth.logout();
+            location.reload();
+        });
+    }
+
+    private setupNavigation(): void {
+        document
+            .querySelectorAll<HTMLButtonElement>(".nav-item")
+            .forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    document
+                        .querySelectorAll<HTMLElement>(".section")
+                        .forEach((s) => {
+                            s.hidden = !s.id.endsWith(btn.dataset.section!);
+                        });
+                    document
+                        .querySelectorAll(".nav-item")
+                        .forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+                });
+            });
     }
 }

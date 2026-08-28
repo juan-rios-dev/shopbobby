@@ -31,6 +31,7 @@
   "dependencies": {
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
-    "prompts": "^2.4.2"
+    "prompts": "^2.4.2",
+    "sweetalert2": "^11.26.25"
   }
 }
