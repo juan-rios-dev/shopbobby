@@ -1,7 +1,7 @@
 const SESSION_KEY = "bobby_auth";
 const CREDENTIALS = {
     username: "admin",
-    password: "admin123"
+    password: "admin"
 }
 
 export class AuthGuard {

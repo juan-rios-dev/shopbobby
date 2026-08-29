@@ -24,6 +24,11 @@ npm install
 | `npm run start:console` | Ejecuta la CLI compilada. |
 | `npm run start:web` | Inicia la aplicacion web compilada. |
 
+## Credenciales
+
+username: admin
+password: admin
+
 ## Estructura del proyecto
 
 ```
