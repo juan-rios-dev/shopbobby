@@ -3,7 +3,7 @@ import { Service } from "@/domain/interfaces/service.interface";
 import { Modal } from 'bootstrap';
 import Swal from 'sweetalert2'
 
-export class ClientHandler {
+export class ClientSection {
     constructor(
         private clientService: Service<Client>
     ) { }

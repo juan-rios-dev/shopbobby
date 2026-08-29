@@ -2,7 +2,7 @@ import { Product } from "@/domain/entities/product.entity";
 import { Service } from "@/domain/interfaces/service.interface";
 import { Modal } from "bootstrap";
 
-export class ProductHandler {
+export class ProductSection {
     constructor(
         private productService: Service<Product>
     ) { }

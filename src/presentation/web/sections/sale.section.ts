@@ -3,7 +3,7 @@ import { Product } from "@/domain/entities/product.entity";
 import { Sale, SaleItem } from "@/domain/entities/sale.entity";
 import { Service } from "@/domain/interfaces/service.interface";
 
-export class SaleHandler {
+export class SaleSection {
     private selectedProducts: Product[] = [];
     private items: SaleItem[] = [];
 
@@ -17,9 +17,16 @@ export class SaleHandler {
         const nav_sale = document.getElementById("nav-sales");
         const add_product = document.getElementById("add_product");
         const btn_save = document.getElementById("btn_save");
+        const tbody = document.getElementById("tablaProductos");
 
         nav_sale?.addEventListener("click", () => {
             this.render()
+        })
+
+        tbody?.addEventListener("change", (e) => {
+            if ((e.target as HTMLElement).id.startsWith("stock_")) {
+                this.calculaTotal();
+            }
         })
 
         add_product?.addEventListener("click", () => {
@@ -132,13 +139,6 @@ export class SaleHandler {
             </tr>
 
         `).join("");
-
-        this.selectedProducts.map(product => {
-            const stock = document.getElementById("stock_" + product.id) as HTMLInputElement;
-            stock.addEventListener("change", () => {
-                this.calculaTotal();
-            })
-        })
 
         tbody_sales!.querySelectorAll<HTMLButtonElement>("[data-action='delete-sale']").forEach(btn => {
             btn.addEventListener("click", () => {

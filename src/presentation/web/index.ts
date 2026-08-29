@@ -2,18 +2,19 @@ import { Client } from "@/domain/entities/client.entity";
 import { Product } from "@/domain/entities/product.entity";
 import { Sale } from "@/domain/entities/sale.entity";
 import { Service } from "@/domain/interfaces/service.interface";
-import { ClientHandler } from "./handlers/client.handler";
-import { LoginHandler } from "./handlers/login.handler";
 import { AuthGuard } from "./guard/auth.guard";
 import "@/presentation/web/index.css"
-import { ProductHandler } from "./handlers/product.handler";
-import { SaleHandler } from "./handlers/sale.handler";
+import { ClientSection } from "./sections/client.section";
+import { ProductSection } from "./sections/product.section";
+import { SaleSection } from "./sections/sale.section";
+import { LoginSection } from "./sections/login.section";
 
-export class WebController {
-    private clientHandler!: ClientHandler
-    private productHandler!: ProductHandler
-    private saleHandler!: SaleHandler
+export class WebInitializer {
+    private clientHandler!: ClientSection
+    private productHandler!: ProductSection
+    private saleHandler!: SaleSection
     private auth = new AuthGuard();
+    private login = new LoginSection(this.auth, () => this.showApp());
 
     constructor(
         private clientService: Service<Client>,
@@ -21,6 +22,9 @@ export class WebController {
         private saleService: Service<Sale>,
     ) {
         this.boot();
+
+        const loadingScreen = document.getElementById("loading-screen");
+        loadingScreen!.style.display = "none";
     }
 
     private boot(): void {
@@ -32,9 +36,9 @@ export class WebController {
     }
 
     private init(): void {
-        this.clientHandler = new ClientHandler(this.clientService);
-        this.productHandler = new ProductHandler(this.productService);
-        this.saleHandler = new SaleHandler(this.clientService, this.productService, this.saleService);
+        this.clientHandler = new ClientSection(this.clientService);
+        this.productHandler = new ProductSection(this.productService);
+        this.saleHandler = new SaleSection(this.clientService, this.productService, this.saleService);
 
         this.renderProfile();
         this.setupNavigation();
@@ -53,9 +57,7 @@ export class WebController {
         loginScreen!.hidden = false;
         appScreen!.hidden = true;
 
-        new LoginHandler(this.auth, () => {
-            this.showApp();
-        }).setup();
+        this.login.setup();
     }
 
     private showApp() {

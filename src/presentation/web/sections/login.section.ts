@@ -1,6 +1,6 @@
 import { AuthGuard } from "../guard/auth.guard";
 
-export class LoginHandler {
+export class LoginSection {
     constructor(
         private auth: AuthGuard,
         private onSuccess: () => void
